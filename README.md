@@ -164,3 +164,9 @@ Integrates clean, modern svg-based icons from `lucide-react` and `@gravity-ui/ic
 ## Troubleshooting
 - If `npm install` fails, clear your npm cache with `npm cache clean --force` and run install again.
 - If API calls fail, make sure the Aetheris-AI-server is running locally on port 5000.
+
+
+## Roadmap
+- Integration with local Ollama models.
+- Automated multi-currency budget conversions.
+- Exporting itineraries directly to Google Calendar.
