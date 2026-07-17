@@ -124,3 +124,10 @@ Utilizes React Query (`QueryProvider`) for caching client API responses, handlin
 
 ## CSS & Design System
 Built using Tailwind CSS with customized colors and animations to deliver a premium, modern dark mode workspace experience.
+
+
+## Vercel Deployment
+To deploy on Vercel:
+1. Connect your GitHub repository to Vercel.
+2. Set environment variables in the Vercel dashboard.
+3. Deploy the project using the automatic Next.js builder configuration.
