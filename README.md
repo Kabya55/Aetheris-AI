@@ -108,3 +108,11 @@ Calculates estimated vs. actual expenses using data parsed from travel tickets a
 
 ## Booking Parser Agent
 Parses receipt emails, boarding passes, and booking confirmations using text recognition and extracts metadata key-value pairs (dates, flight numbers, costs).
+
+
+## Environment Variables Template
+Add the following variables to your `.env` file:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+```
