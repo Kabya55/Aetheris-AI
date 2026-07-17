@@ -135,3 +135,7 @@ To deploy on Vercel:
 
 ## Contributions
 Contributions are welcome! Please open a Pull Request or create an Issue to discuss potential enhancements.
+
+
+## Quality Controls
+Includes ESLint configurations in `eslint.config.mjs` to maintain code quality standards and prevent pattern mismatch in Next.js pages.
