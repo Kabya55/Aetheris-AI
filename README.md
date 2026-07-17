@@ -38,3 +38,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # Aetheris AI
 
 **Aetheris AI** is a next-generation travel intelligence and planning system. It leverages AI agents to simplify travel planning, itinerary creation, and ticket parsing.
+
+
+## Features
+- **AI Travel Assistant**: Chat with intelligent agents to plan your trips.
+- **Smart Itineraries**: Generate detailed day-by-day itineraries dynamically.
+- **Ticket Parsing**: Automatically extract travel schedules and details from ticket PDFs.
+- **Budget Analysis**: Track and optimize expenses automatically.
