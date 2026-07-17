@@ -104,3 +104,7 @@ Automatically translates chat discussions into structured itineraries complete w
 
 ## Budget Tracker
 Calculates estimated vs. actual expenses using data parsed from travel tickets and user inputs, displaying visual charts via Recharts.
+
+
+## Booking Parser Agent
+Parses receipt emails, boarding passes, and booking confirmations using text recognition and extracts metadata key-value pairs (dates, flight numbers, costs).
