@@ -147,3 +147,7 @@ Strict compiler rules are configured in `tsconfig.json` to guarantee type safety
 
 ## Large Language Model Integration
 Compatible with multiple model providers, defaulting to Google's Gemini models for robust text generation and reasoning capabilities.
+
+
+## Responsiveness Testing
+Features responsive components for screens from mobile size (320px) up to ultra-wide desktop monitors, dynamically rendering sidebars.
