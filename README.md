@@ -68,3 +68,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - `components/`: Reusable React components (Navbar, Footer, cards, etc.).
 - `context/`: Context providers for authentication and application state.
 - `lib/`: Helper utilities, API clients, and network configurations.
+
+
+## App Routing Structure
+- `/about`: Information about Aetheris AI.
+- `/ai-hub`: Model configuration and options.
+- `/chat`: Conversational AI planning chat.
+- `/explore`: Browse destination cards and popular itineraries.
+- `/items/add`: Manually log a booking confirmation.
+- `/items/manage`: View and edit booked trips/tickets.
+- `/login`: User sign-in interface.
+- `/register`: User registration interface.
+- `/trips/[id]`: Detailed layout for specific planned trips.
