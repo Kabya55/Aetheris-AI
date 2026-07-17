@@ -151,3 +151,7 @@ Compatible with multiple model providers, defaulting to Google's Gemini models f
 
 ## Responsiveness Testing
 Features responsive components for screens from mobile size (320px) up to ultra-wide desktop monitors, dynamically rendering sidebars.
+
+
+## Offline/Fallback Modes
+If connection to backend API is lost, local state stores and mock datasets trigger automatically so the user experience is uninterrupted.
