@@ -139,3 +139,7 @@ Contributions are welcome! Please open a Pull Request or create an Issue to disc
 
 ## Quality Controls
 Includes ESLint configurations in `eslint.config.mjs` to maintain code quality standards and prevent pattern mismatch in Next.js pages.
+
+
+## TypeScript Support
+Strict compiler rules are configured in `tsconfig.json` to guarantee type safety across API integrations and custom hook modules.
