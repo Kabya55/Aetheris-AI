@@ -88,3 +88,7 @@ The main page layout includes a global `Navbar` and `Footer` that wrap the appli
 
 ## Authentication (`context/AuthContext.tsx`)
 Provides global access to the authenticated user's state, login/register helper methods, and session synchronization with localStorage.
+
+
+## Network API Client (`lib/api.ts`)
+Uses Axios to route request payloads to the Aetheris-AI-server backend. Implements connection retries and mock fallbacks in case of network failures.
