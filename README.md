@@ -84,3 +84,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Layout and Navigation
 The main page layout includes a global `Navbar` and `Footer` that wrap the application workspace, providing responsive routing for mobile and desktop screens.
+
+
+## Authentication (`context/AuthContext.tsx`)
+Provides global access to the authenticated user's state, login/register helper methods, and session synchronization with localStorage.
