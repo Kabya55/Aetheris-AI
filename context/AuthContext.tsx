@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '../lib/api';
+import { authClient } from '../lib/auth-client';
 
 interface User {
   id: string;
@@ -29,35 +29,76 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  // Load session status from Better Auth Client on mount
   useEffect(() => {
-    // Read persisted token and user data on load
-    if (typeof window !== 'undefined') {
-      const savedToken = localStorage.getItem('aetheris_token');
-      const savedUser = localStorage.getItem('aetheris_user');
-      
-      if (savedToken && savedUser) {
-        setToken(savedToken);
-        setUser(JSON.parse(savedUser));
+    async function loadSession() {
+      try {
+        const { data: sessionData } = await authClient.getSession();
+        if (sessionData) {
+          const formattedUser = {
+            id: sessionData.user.id,
+            name: sessionData.user.name,
+            email: sessionData.user.email,
+            role: (sessionData.user as any).role || 'user',
+          };
+          setUser(formattedUser);
+          
+          // Better Auth stores the token in localStorage/cookies.
+          // We can read the bearer token if we need it for Axios, or read from localStorage.
+          const localToken = localStorage.getItem('aetheris_token');
+          setToken(localToken);
+        }
+      } catch (err) {
+        console.error('Failed to sync Better Auth session:', err);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
+    loadSession();
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const res = await api.post('/auth/login', { email, password });
-      const { token: jwtToken, user: userProfile } = res.data;
       
-      localStorage.setItem('aetheris_token', jwtToken);
-      localStorage.setItem('aetheris_user', JSON.stringify(userProfile));
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+      }, {
+        onSuccess: (ctx) => {
+          // Retrieve bearer token from response header set by bearer plugin
+          const authToken = ctx.response.headers.get("set-auth-token");
+          if (authToken) {
+            localStorage.setItem('aetheris_token', authToken);
+          }
+        }
+      });
       
-      setToken(jwtToken);
-      setUser(userProfile);
+      if (error) {
+        throw new Error(error.message || 'Login failed');
+      }
+
+      if (!data?.user) {
+        throw new Error('Authentication returned empty user data.');
+      }
+      
+      const userProfile = data.user;
+      const formattedUser = {
+        id: userProfile.id,
+        name: userProfile.name,
+        email: userProfile.email,
+        role: (userProfile as any).role || 'user',
+      };
+      
+      localStorage.setItem('aetheris_user', JSON.stringify(formattedUser));
+      
+      const updatedToken = localStorage.getItem('aetheris_token');
+      setToken(updatedToken);
+      setUser(formattedUser);
       
       router.push('/explore');
     } catch (err: any) {
-      throw new Error(err.response?.data?.message || 'Login failed');
+      throw new Error(err.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -66,18 +107,46 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (name: string, email: string, password: string) => {
     try {
       setIsLoading(true);
-      const res = await api.post('/auth/register', { name, email, password });
-      const { token: jwtToken, user: userProfile } = res.data;
       
-      localStorage.setItem('aetheris_token', jwtToken);
-      localStorage.setItem('aetheris_user', JSON.stringify(userProfile));
+      const { data, error } = await authClient.signUp.email({
+        email,
+        password,
+        name,
+      }, {
+        onSuccess: (ctx) => {
+          // Retrieve bearer token from response header set by bearer plugin
+          const authToken = ctx.response.headers.get("set-auth-token");
+          if (authToken) {
+            localStorage.setItem('aetheris_token', authToken);
+          }
+        }
+      });
       
-      setToken(jwtToken);
-      setUser(userProfile);
+      if (error) {
+        throw new Error(error.message || 'Registration failed');
+      }
+
+      if (!data?.user) {
+        throw new Error('Signup returned empty user data.');
+      }
+      
+      const userProfile = data.user;
+      const formattedUser = {
+        id: userProfile.id,
+        name: userProfile.name,
+        email: userProfile.email,
+        role: (userProfile as any).role || 'user',
+      };
+      
+      localStorage.setItem('aetheris_user', JSON.stringify(formattedUser));
+      
+      const updatedToken = localStorage.getItem('aetheris_token');
+      setToken(updatedToken);
+      setUser(formattedUser);
       
       router.push('/explore');
     } catch (err: any) {
-      throw new Error(err.response?.data?.message || 'Registration failed');
+      throw new Error(err.message || 'Registration failed');
     } finally {
       setIsLoading(false);
     }
@@ -86,31 +155,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const mockGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      // Simulate OAuth exchange
-      const mockData = {
-        name: 'Kabya Rahman',
-        email: 'kabya@aetheris.ai',
-        googleId: 'g-9847120398',
-      };
-      
-      const res = await api.post('/auth/google-mock', mockData);
-      const { token: jwtToken, user: userProfile } = res.data;
-      
-      localStorage.setItem('aetheris_token', jwtToken);
-      localStorage.setItem('aetheris_user', JSON.stringify(userProfile));
-      
-      setToken(jwtToken);
-      setUser(userProfile);
-      
-      router.push('/explore');
+      // Attempt login with pre-created demo user for visual simulation
+      await login('kabya@aetheris.ai', 'password123');
     } catch (err: any) {
-      throw new Error(err.response?.data?.message || 'Google login failed');
+      // Fallback: If user doesn't exist yet, register and then login
+      try {
+        await register('Kabya Rahman', 'kabya@aetheris.ai', 'password123');
+      } catch (regErr: any) {
+        throw new Error(regErr.message || 'Google sign-in simulation failed');
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await authClient.signOut();
+    } catch (err) {
+      console.error('Better Auth signout failed:', err);
+    }
     localStorage.removeItem('aetheris_token');
     localStorage.removeItem('aetheris_user');
     setToken(null);
