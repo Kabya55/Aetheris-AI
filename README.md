@@ -80,3 +80,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - `/login`: User sign-in interface.
 - `/register`: User registration interface.
 - `/trips/[id]`: Detailed layout for specific planned trips.
+
+
+## Layout and Navigation
+The main page layout includes a global `Navbar` and `Footer` that wrap the application workspace, providing responsive routing for mobile and desktop screens.
