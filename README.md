@@ -54,3 +54,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - **State Management**: TanStack React Query
 - **Icons**: Lucide React & Gravity UI Icons
 - **Charts**: Recharts
+
+
+## Setup Instructions
+1. Clone the repository.
+2. Run `npm install` to install dependencies.
+3. Copy `.env.example` to `.env` and configure environment variables.
+4. Start the dev server using `npm run dev`.
