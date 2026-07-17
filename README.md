@@ -96,3 +96,7 @@ Uses Axios to route request payloads to the Aetheris-AI-server backend. Implemen
 
 ## AI Chatbot Capabilities
 Powered by LLM reasoning agents, the chat module parses complex natural language travel requests and suggests flight routes, hotels, and tourist attractions.
+
+
+## Itinerary Generator
+Automatically translates chat discussions into structured itineraries complete with schedules, locations, and descriptions, displayed beautifully in the trips layout.
