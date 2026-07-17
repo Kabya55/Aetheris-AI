@@ -100,3 +100,7 @@ Powered by LLM reasoning agents, the chat module parses complex natural language
 
 ## Itinerary Generator
 Automatically translates chat discussions into structured itineraries complete with schedules, locations, and descriptions, displayed beautifully in the trips layout.
+
+
+## Budget Tracker
+Calculates estimated vs. actual expenses using data parsed from travel tickets and user inputs, displaying visual charts via Recharts.
