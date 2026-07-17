@@ -120,3 +120,7 @@ NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
 
 ## React Query Integration
 Utilizes React Query (`QueryProvider`) for caching client API responses, handling background query revalidation, and loading states for optimal UX.
+
+
+## CSS & Design System
+Built using Tailwind CSS with customized colors and animations to deliver a premium, modern dark mode workspace experience.
