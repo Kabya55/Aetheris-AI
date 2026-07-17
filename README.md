@@ -45,3 +45,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - **Smart Itineraries**: Generate detailed day-by-day itineraries dynamically.
 - **Ticket Parsing**: Automatically extract travel schedules and details from ticket PDFs.
 - **Budget Analysis**: Track and optimize expenses automatically.
+
+
+## Tech Stack
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+- **UI Components**: HeroUI / React
+- **State Management**: TanStack React Query
+- **Icons**: Lucide React & Gravity UI Icons
+- **Charts**: Recharts
