@@ -159,3 +159,8 @@ If connection to backend API is lost, local state stores and mock datasets trigg
 
 ## Icon Sets
 Integrates clean, modern svg-based icons from `lucide-react` and `@gravity-ui/icons` for a polished, visual-centric UI style.
+
+
+## Troubleshooting
+- If `npm install` fails, clear your npm cache with `npm cache clean --force` and run install again.
+- If API calls fail, make sure the Aetheris-AI-server is running locally on port 5000.
