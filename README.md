@@ -131,3 +131,7 @@ To deploy on Vercel:
 1. Connect your GitHub repository to Vercel.
 2. Set environment variables in the Vercel dashboard.
 3. Deploy the project using the automatic Next.js builder configuration.
+
+
+## Contributions
+Contributions are welcome! Please open a Pull Request or create an Issue to discuss potential enhancements.
