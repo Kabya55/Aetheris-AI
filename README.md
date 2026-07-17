@@ -116,3 +116,7 @@ Add the following variables to your `.env` file:
 NEXT_PUBLIC_API_URL=http://localhost:5000
 NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
 ```
+
+
+## React Query Integration
+Utilizes React Query (`QueryProvider`) for caching client API responses, handling background query revalidation, and loading states for optimal UX.
