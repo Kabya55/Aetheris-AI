@@ -155,3 +155,7 @@ Features responsive components for screens from mobile size (320px) up to ultra-
 
 ## Offline/Fallback Modes
 If connection to backend API is lost, local state stores and mock datasets trigger automatically so the user experience is uninterrupted.
+
+
+## Icon Sets
+Integrates clean, modern svg-based icons from `lucide-react` and `@gravity-ui/icons` for a polished, visual-centric UI style.
