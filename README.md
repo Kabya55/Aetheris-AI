@@ -143,3 +143,7 @@ Includes ESLint configurations in `eslint.config.mjs` to maintain code quality s
 
 ## TypeScript Support
 Strict compiler rules are configured in `tsconfig.json` to guarantee type safety across API integrations and custom hook modules.
+
+
+## Large Language Model Integration
+Compatible with multiple model providers, defaulting to Google's Gemini models for robust text generation and reasoning capabilities.
