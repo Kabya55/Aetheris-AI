@@ -61,3 +61,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 2. Run `npm install` to install dependencies.
 3. Copy `.env.example` to `.env` and configure environment variables.
 4. Start the dev server using `npm run dev`.
+
+
+## Project Structure
+- `app/`: Contains Next.js routes and pages.
+- `components/`: Reusable React components (Navbar, Footer, cards, etc.).
+- `context/`: Context providers for authentication and application state.
+- `lib/`: Helper utilities, API clients, and network configurations.
