@@ -33,7 +33,7 @@ export default function ContactPage() {
       <Navbar />
 
       <div className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-12 space-y-12">
-        
+
         {/* Title Block */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="flex items-center gap-1 mx-auto w-fit rounded-full bg-indigo-950/60 border border-indigo-500/40 text-xs font-semibold tracking-wide text-indigo-300 py-1.5 px-4 mb-2">
@@ -47,18 +47,18 @@ export default function ContactPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* Contact Details */}
           <div className="lg:col-span-1 space-y-6">
             <div className="rounded-2xl glass-panel bg-slate-900/20 p-6 border border-slate-800/80 space-y-6">
               <h2 className="text-base font-bold text-white uppercase tracking-wider pb-3 border-b border-slate-900">Office Channels</h2>
-              
+
               <div className="space-y-4 text-xs md:text-sm text-slate-300">
                 <div className="flex items-start gap-3">
                   <MapPin className="size-5 text-indigo-400 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-white block font-bold">Office Headquarters</strong>
-                    <span className="text-slate-400">12 AI Boulevard, Silicon Hub, CA</span>
+                    <span className="text-slate-400">Dhaka, Bangladesj</span>
                   </div>
                 </div>
 
@@ -66,7 +66,7 @@ export default function ContactPage() {
                   <Phone className="size-5 text-indigo-400 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-white block font-bold">Phone Hotline</strong>
-                    <span className="text-slate-400">+1 (555) 234-9874</span>
+                    <span className="text-slate-400">+8801750084574</span>
                   </div>
                 </div>
 
@@ -74,7 +74,7 @@ export default function ContactPage() {
                   <Mail className="size-5 text-indigo-400 mt-0.5 shrink-0" />
                   <div>
                     <strong className="text-white block font-bold">Email Inbox</strong>
-                    <span className="text-slate-400">support@aetheris.ai</span>
+                    <span className="text-slate-400">kabyakishor017@gmail.com</span>
                   </div>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export default function ContactPage() {
           {/* Form Column */}
           <div className="lg:col-span-2 rounded-2xl glass-panel bg-slate-900/10 border border-slate-800/80 p-6 md:p-8">
             <h2 className="text-lg font-bold text-white pb-4 border-b border-slate-900 mb-6">Send Support Ticket</h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
@@ -109,7 +109,7 @@ export default function ContactPage() {
                     disabled={isSubmitting}
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Email Address *</label>
                   <input
