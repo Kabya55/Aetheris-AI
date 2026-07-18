@@ -6,7 +6,11 @@ import { useAuth } from '../../context/AuthContext';
 import { api } from '../../lib/api';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { MessageSquareCode, Send, Sparkles, User, Loader2, ArrowRight, CornerDownRight } from 'lucide-react';
+import { 
+  MessageSquareCode, Send, Sparkles, User, Loader2, 
+  ArrowRight, CornerDownRight, Plus, X, BadgeDollarSign, 
+  ClipboardList, Compass, FileSpreadsheet 
+} from 'lucide-react';
 
 interface ChatMessage {
   _id?: string;
@@ -36,7 +40,13 @@ export default function ChatPage() {
   const [isTyping, setIsTyping] = useState(false);
   const [navAlert, setNavAlert] = useState<string | null>(null);
 
+  // Unified Gemini chat states
+  const [showMenu, setShowMenu] = useState(false);
+  const [attachedFile, setAttachedFile] = useState<{ name: string; size: number } | null>(null);
+  const [attachedFileContent, setAttachedFileContent] = useState('');
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Suggested follow-up prompts (clicking submits them)
   const suggestedPrompts = [
@@ -72,19 +82,56 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  // File handlers for Chat
+  const handleFileAttach = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+      setAttachedFile({ name: file.name, size: file.size });
+      setAttachedFileContent(text);
+      
+      const lowerName = file.name.toLowerCase();
+      if (lowerName.endsWith('.csv')) {
+        setInputText(`Analyze these travel expenses in detail`);
+      } else {
+        setInputText(`Analyze this booking voucher and list check-in dates and details`);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleRemoveAttachment = () => {
+    setAttachedFile(null);
+    setAttachedFileContent('');
+  };
+
   const handleSendMessage = async (textToSend: string) => {
-    if (!textToSend.trim()) return;
+    if (!textToSend.trim() && !attachedFileContent) return;
+
+    // Build message content with file attachment info if present
+    let messageContent = textToSend;
+    let visualUserMsg = textToSend;
+
+    if (attachedFile && attachedFileContent) {
+      const fileHeader = `[File Uploaded: ${attachedFile.name}]\n`;
+      messageContent = `${fileHeader}\n${attachedFileContent}\n\n${textToSend}`;
+      visualUserMsg = `📎 Attached: ${attachedFile.name}\n\n${textToSend}`;
+    }
 
     // Append user message immediately
-    const userMsg: ChatMessage = { role: 'user', content: textToSend };
+    const userMsg: ChatMessage = { role: 'user', content: visualUserMsg };
     setMessages(prev => [...prev, userMsg]);
     setInputText('');
     setIsTyping(true);
     setNavAlert(null);
+    handleRemoveAttachment(); // Reset attachment state immediately
 
     try {
       const res = await api.post('/ai/chat', {
-        message: textToSend,
+        message: messageContent,
         conversationId: 'default-chat'
       });
 
@@ -217,26 +264,135 @@ export default function ChatPage() {
         </div>
 
         {/* Form Input Area */}
-        <form 
-          onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputText); }} 
-          className="flex gap-3 shrink-0"
-        >
-          <input
-            type="text"
-            disabled={isTyping}
-            placeholder="Type a message to your AI travel assistant..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            className="w-full text-xs rounded-xl glass-input bg-slate-900/40 border-slate-850 px-4 py-3.5 focus:border-indigo-500"
-          />
-          <button
-            type="submit"
-            disabled={isTyping || !inputText.trim()}
-            className="rounded-xl bg-indigo-600 hover:bg-indigo-500 glow-indigo text-white px-5 py-3.5 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <Send className="size-4" />
-          </button>
-        </form>
+        <div className="relative shrink-0">
+          
+          {/* Floating Dropdown Actions Menu */}
+          {showMenu && (
+            <div className="absolute bottom-16 left-2 z-50 w-72 rounded-2xl glass-panel bg-slate-950 border border-slate-800 shadow-2xl p-2.5 space-y-1 animate-in fade-in slide-in-from-bottom-2 duration-200">
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 pb-1.5 border-b border-slate-900">
+                Gemini Document & Chat Actions
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMenu(false);
+                  if (fileInputRef.current) {
+                    fileInputRef.current.accept = '.csv';
+                    fileInputRef.current.click();
+                  }
+                }}
+                className="w-full text-left text-xs font-semibold rounded-lg px-2.5 py-2 text-slate-300 hover:text-white hover:bg-slate-900/60 flex items-center gap-2 transition cursor-pointer"
+              >
+                <span className="p-1 rounded bg-emerald-950/40 text-emerald-400">
+                  <BadgeDollarSign className="size-3.5" />
+                </span>
+                <span>Analyze Travel Expenses (CSV)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMenu(false);
+                  if (fileInputRef.current) {
+                    fileInputRef.current.accept = '.txt';
+                    fileInputRef.current.click();
+                  }
+                }}
+                className="w-full text-left text-xs font-semibold rounded-lg px-2.5 py-2 text-slate-300 hover:text-white hover:bg-slate-900/60 flex items-center gap-2 transition cursor-pointer"
+              >
+                <span className="p-1 rounded bg-purple-950/40 text-purple-400">
+                  <ClipboardList className="size-3.5" />
+                </span>
+                <span>Parse Booking Voucher (TXT)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMenu(false);
+                  setInputText("Plan a 3-day budget trip to Paris, France");
+                }}
+                className="w-full text-left text-xs font-semibold rounded-lg px-2.5 py-2 text-slate-300 hover:text-white hover:bg-slate-900/60 flex items-center gap-2 transition cursor-pointer"
+              >
+                <span className="p-1 rounded bg-sky-950/40 text-sky-400">
+                  <Compass className="size-3.5" />
+                </span>
+                <span>Plan Custom Itinerary</span>
+              </button>
+            </div>
+          )}
+
+          {/* Main Search/Prompt Container */}
+          <div className="relative flex flex-col w-full rounded-[24px] border border-slate-800 bg-[#0f1115]/95 shadow-2xl p-1.5 transition-all duration-300 focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-950/50 animate-fade-in">
+            
+            {/* Hidden native input */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileAttach}
+              className="hidden"
+            />
+
+            {/* File attachment preview inside the input bar */}
+            {attachedFile && (
+              <div className="flex flex-wrap gap-2 px-3 py-1.5 border-b border-slate-800/40 mb-1.5 animate-fade-in">
+                <div className="flex items-center gap-2 bg-indigo-950/55 border border-indigo-900/60 rounded-full px-3 py-0.5 text-xs text-indigo-300">
+                  <FileSpreadsheet className="size-3.5 text-indigo-400 animate-pulse" />
+                  <span className="font-medium truncate max-w-[180px]">{attachedFile.name}</span>
+                  <span className="text-[10px] text-slate-500">({(attachedFile.size / 1024).toFixed(1)} KB)</span>
+                  <button 
+                    type="button" 
+                    onClick={handleRemoveAttachment} 
+                    className="ml-1 text-slate-400 hover:text-red-400 transition font-bold cursor-pointer"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <form 
+              onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputText); }} 
+              className="flex items-center gap-2 pl-2 pr-1"
+            >
+              {/* Plus button */}
+              <button
+                type="button"
+                onClick={() => setShowMenu(!showMenu)}
+                className={`flex items-center justify-center size-9 rounded-full transition shrink-0 cursor-pointer ${
+                  showMenu ? 'bg-indigo-950/60 text-indigo-400' : 'hover:bg-slate-900/80 text-slate-400 hover:text-slate-200'
+                }`}
+                title="Google Gemini Actions & File Upload"
+              >
+                <Plus className="size-5" />
+              </button>
+
+              {/* Text Input */}
+              <input
+                type="text"
+                disabled={isTyping}
+                placeholder="Ask Gemini - type a message or upload files..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                className="flex-1 bg-transparent border-0 ring-0 focus:ring-0 focus:outline-none text-xs text-slate-200 placeholder-slate-500 py-2.5 px-1"
+              />
+
+              {/* Submit button */}
+              <button
+                type="submit"
+                disabled={isTyping || (!inputText.trim() && !attachedFileContent)}
+                className="flex items-center justify-center size-9 rounded-full bg-indigo-650 hover:bg-indigo-600 text-white transition disabled:opacity-40 disabled:cursor-not-allowed shrink-0 cursor-pointer"
+              >
+                {isTyping ? (
+                  <Loader2 className="animate-spin size-4" />
+                ) : (
+                  <Send className="size-3.5" />
+                )}
+              </button>
+            </form>
+          </div>
+
+        </div>
 
       </div>
 
