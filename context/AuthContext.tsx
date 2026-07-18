@@ -155,15 +155,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const mockGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      const { error } = await authClient.signIn.social({
-        provider: 'google',
-        callbackURL: '/explore',
-      });
-      if (error) {
-        throw new Error(error.message || 'Google sign-in failed');
-      }
+      // Attempt login with pre-created demo user for visual simulation
+      await login('kabya@aetheris.ai', 'password123');
     } catch (err: any) {
-      throw new Error(err.message || 'Google sign-in failed');
+      // Fallback: If user doesn't exist yet, register and then login
+      try {
+        await register('Kabya Kishor Halder', 'kabya@aetheris.ai', 'password123');
+      } catch (regErr: any) {
+        throw new Error(regErr.message || 'Google sign-in simulation failed');
+      }
     } finally {
       setIsLoading(false);
     }
