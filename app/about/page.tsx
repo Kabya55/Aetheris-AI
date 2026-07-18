@@ -12,7 +12,7 @@ export default function AboutPage() {
       <Navbar />
 
       <div className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-12 space-y-12">
-        
+
         {/* Title Hero */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="flex items-center gap-1 mx-auto w-fit rounded-full bg-indigo-950/60 border border-indigo-500/40 text-xs font-semibold tracking-wide text-indigo-300 py-1.5 px-4 mb-2 animate-pulse">
@@ -27,9 +27,9 @@ export default function AboutPage() {
 
         {/* Banner graphic */}
         <div className="relative h-72 rounded-2xl overflow-hidden border border-slate-900 shadow-2xl">
-          <img 
-            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80" 
-            alt="AI technology travel banner" 
+          <img
+            src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80"
+            alt="AI technology travel banner"
             className="w-full h-full object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
@@ -71,8 +71,8 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {[
-              { name: "Kabya Rahman", role: "Lead Systems Engineer", desc: "Specializes in secure API design, database schemas, and AI agent prompt templates.", img: "K" },
-              { name: "Antigravity Agent", role: "AI Assistant Architect", desc: "Designed the self-healing fallbacks, conversational assistants, and Recharts analytics dashboards.", img: "A" }
+              { name: "Kabya Kishor Halder", role: "Lead Systems Engineer", desc: "Specializes in secure API design, database schemas, and AI agent prompt templates.", img: "K" },
+              { name: "Kabita Rani Halder", role: "AI Assistant Architect", desc: "Designed the self-healing fallbacks, conversational assistants, and Recharts analytics dashboards.", img: "A" }
             ].map((member, idx) => (
               <div key={idx} className="p-5 rounded-2xl border border-slate-900 bg-slate-900/20 flex gap-4.5 items-center">
                 <div className="size-12 rounded-xl bg-indigo-950/40 border border-indigo-900/40 text-indigo-400 flex items-center justify-center font-bold text-lg glow-indigo shrink-0">
