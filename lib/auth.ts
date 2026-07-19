@@ -1,3 +1,11 @@
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (error: any) {
+  console.warn('[DNS] Warning: Failed to override DNS servers:', error.message);
+}
+
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";

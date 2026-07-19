@@ -17,7 +17,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
-  mockGoogleLogin: () => Promise<void>;
+  googleLogin: () => Promise<void>;
   logout: () => void;
 }
 
@@ -152,18 +152,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const mockGoogleLogin = async () => {
+  const googleLogin = async () => {
     try {
       setIsLoading(true);
-      // Attempt login with pre-created demo user for visual simulation
-      await login('kabya@aetheris.ai', 'password123');
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/explore',
+      });
     } catch (err: any) {
-      // Fallback: If user doesn't exist yet, register and then login
-      try {
-        await register('Kabya Kishor Halder', 'kabya@aetheris.ai', 'password123');
-      } catch (regErr: any) {
-        throw new Error(regErr.message || 'Google sign-in simulation failed');
-      }
+      throw new Error(err.message || 'Google Sign-In failed');
     } finally {
       setIsLoading(false);
     }
@@ -183,7 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isLoading, login, register, mockGoogleLogin, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoading, login, register, googleLogin, logout }}>
       {children}
     </AuthContext.Provider>
   );

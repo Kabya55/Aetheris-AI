@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 import { Mail, Lock, LogIn, Sparkles, AlertCircle, Compass, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
-  const { login, mockGoogleLogin } = useAuth();
+  const { login, googleLogin } = useAuth();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +52,7 @@ export default function LoginPage() {
     setError(null);
     setIsSubmitting(true);
     try {
-      await mockGoogleLogin();
+      await googleLogin();
     } catch (err: any) {
       setError(err.message || 'Google Auth simulation failed');
       setIsSubmitting(false);
